@@ -11,8 +11,6 @@ const homeButton = byId("homeButton");
 const playHomeButton = byId("playHomeButton");
 const currentNumberElement = byId("currentNumber");
 const totalNumberElement = byId("totalNumber");
-const letterButton = byId("letterButton");
-const smallLetterElement = byId("smallLetter");
 const letterImage = byId("letterImage");
 const wordElement = byId("word");
 const soundButton = byId("soundButton");
@@ -155,8 +153,6 @@ function renderCurrentLetter() {
   const item = getCurrentLetter();
   currentNumberElement.textContent = String(currentIndex + 1);
   totalNumberElement.textContent = String(alphabet.length);
-  letterButton.textContent = item.upper;
-  smallLetterElement.textContent = item.lower;
   letterImage.src = item.image;
   letterImage.alt = item.word.trim();
   wordElement.textContent = item.word.trim();
@@ -165,7 +161,7 @@ function renderCurrentLetter() {
   nextButton.disabled = false;
   nextButton.textContent = isLastLetter ? "Học lại từ đầu ↻" : "Chữ tiếp theo →";
   statusMessage.textContent = `Đang học chữ ${item.upper}`;
-  document.title = `${item.upper} - Ốc học chữ cái`;
+  document.title = `${item.upper} - Sóc học chữ cái`;
   progressBar.style.width = `${((currentIndex + 1) / alphabet.length) * 100}%`;
 
   learningCard.classList.remove("is-changing");
@@ -239,7 +235,7 @@ function createQuestion() {
   stopActiveAudio();
   questionAnswered = false;
   answerBusy = false;
-  playFeedback.textContent = "Ốc hãy chọn hình đúng nhé!";
+  playFeedback.textContent = "Sóc hãy chọn hình đúng nhé!";
   nextQuestionButton.disabled = true;
   nextQuestionButton.textContent = "Câu tiếp theo →";
   resultPanel.classList.add("hidden");
@@ -315,7 +311,7 @@ async function checkPlayAnswer(button, selectedItem) {
 
   if (!isCorrect) {
     button.classList.add("wrong");
-    playFeedback.textContent = `${selectedItem.upper} chưa đúng. Ốc thử lại nhé!`;
+    playFeedback.textContent = `${selectedItem.upper} chưa đúng. Sóc thử lại nhé!`;
     await playFeedbackSequence(selectedItem, false, sequenceId);
     button.classList.remove("wrong");
     if (!questionAnswered) setAnswerCardsDisabled(false);
@@ -328,7 +324,7 @@ async function checkPlayAnswer(button, selectedItem) {
   playScoreElement.textContent = String(playScore);
   button.classList.add("correct");
   createStarEffect(button);
-  playFeedback.textContent = `Ốc chọn đúng rồi! ${currentCorrectItem.upper} như ${currentCorrectItem.word.trim()}.`;
+  playFeedback.textContent = `Sóc chọn đúng rồi! ${currentCorrectItem.upper} như ${currentCorrectItem.word.trim()}.`;
 
   // Mở nút ngay lập tức; không chờ chuỗi âm thanh kết thúc.
   nextQuestionButton.disabled = false;
@@ -352,10 +348,10 @@ function playQuestionSound({ automatic = false } = {}) {
 
   playAudio(getAudio(currentCorrectItem.sound), sequenceId).then((ok) => {
     if (ok && !questionAnswered) {
-      playFeedback.textContent = "Ốc hãy chọn hình đúng nhé!";
+      playFeedback.textContent = "Sóc hãy chọn hình đúng nhé!";
     } else if (!ok && automatic && !questionAnswered) {
-      // Safari có thể chặn tự phát trong một số trường hợp; nút Ốc nghe vẫn dùng được.
-      playFeedback.textContent = "Bấm Ốc nghe câu hỏi nếu chưa nghe rõ nhé!";
+      // Safari có thể chặn tự phát trong một số trường hợp; nút Sóc nghe vẫn dùng được.
+      playFeedback.textContent = "Bấm Sóc nghe câu hỏi nếu chưa nghe rõ nhé!";
     }
   });
 }
@@ -444,7 +440,7 @@ function showPlayResult() {
   resultPanel.classList.remove("hidden");
   resultScore.textContent = String(playScore);
   resultTotal.textContent = String(TOTAL_QUESTIONS);
-  playInstructionElement.textContent = "Ốc đã hoàn thành thử thách!";
+  playInstructionElement.textContent = "Sóc đã hoàn thành thử thách!";
   playFeedback.textContent = getResultMessage(playScore);
   playSoundButton.disabled = true;
   nextQuestionButton.disabled = false;
@@ -458,10 +454,10 @@ function showPlayResult() {
 }
 
 function getResultMessage(score) {
-  if (score === TOTAL_QUESTIONS) return "Xuất sắc! Ốc đã trả lời đúng tất cả câu hỏi.";
-  if (score >= 8) return "Rất tốt! Ốc đã nhớ được nhiều chữ cái.";
-  if (score >= 5) return "Khá tốt! Ốc hãy luyện thêm một lượt nữa nhé.";
-  return "Ốc hãy quay lại phần Học chữ rồi thử lại nhé.";
+  if (score === TOTAL_QUESTIONS) return "Xuất sắc! Sóc đã trả lời đúng tất cả câu hỏi.";
+  if (score >= 8) return "Rất tốt! Sóc đã nhớ được nhiều chữ cái.";
+  if (score >= 5) return "Khá tốt! Sóc hãy luyện thêm một lượt nữa nhé.";
+  return "Sóc hãy quay lại phần Học chữ rồi thử lại nhé.";
 }
 
 function restartPlayMode() {
@@ -469,7 +465,6 @@ function restartPlayMode() {
 }
 
 soundButton.addEventListener("click", playCurrentSound);
-letterButton.addEventListener("click", playCurrentSound);
 previousButton.addEventListener("click", showPreviousLetter);
 nextButton.addEventListener("click", showNextLetter);
 learnModeButton.addEventListener("click", openLearnMode);
