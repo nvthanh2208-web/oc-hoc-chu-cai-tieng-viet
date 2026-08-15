@@ -250,7 +250,7 @@ function createQuestion() {
   playScoreElement.textContent = String(playScore);
   questionNumberElement.textContent = String(currentQuestionNumber);
   totalQuestionsElement.textContent = String(TOTAL_QUESTIONS);
-  playInstructionElement.textContent = `ỐC hãy chọn hình chữ`;
+  playInstructionElement.textContent = ` `;
   renderAnswerChoices();
 
   preloadAudio(currentCorrectItem.sound);
